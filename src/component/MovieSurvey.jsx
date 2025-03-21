@@ -15,6 +15,9 @@ const MovieSurvey = ({ toglePageData, getDataFrom }) => {
 		{ title: "Pulp Fiction", year: "1994", director: "Quentin Tarantino" },
 		{ title: "Parasite", year: "2019", director: "Bong Joon-ho" },
 	];
+	let valueVaridate = false;
+	// console.log(valueVaridate);
+	//Use State----------------
 	const [selectedValue, setSelectedValue] = useState({
 		nameUser: "",
 		emailUser: "",
@@ -23,11 +26,16 @@ const MovieSurvey = ({ toglePageData, getDataFrom }) => {
 		director: "",
 		commentUser: "",
 	});
-	//function
+	const [error, setError] = useState({
+		name: false,
+		email: false,
+		movies: false,
+	});
+	console.log("error  ", error);
+
+	//function----------------
 	console.log("dataForm :  ", selectedValue);
-	// console.log(nameUser);
-	// console.log(emailUser);
-	// console.log(commentUser);
+	//Event----------------
 	const handleChange = (event) => {
 		setSelectedValue((prev) => ({
 			...prev,
@@ -62,10 +70,64 @@ const MovieSurvey = ({ toglePageData, getDataFrom }) => {
 			commentUser: "",
 		});
 	};
+	// Varidate----------------
+	const varidateInput = () => {
+		const emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/; // สร้างกฎว่ารูปแบบอีเมลที่ถูกต้องต้องเป็นแบบไหน
+		if (!selectedValue.nameUser) {
+			setError((prev) => ({
+				...prev,
+				name: true,
+			}));
+		} else {
+			setError((prev) => ({
+				...prev,
+				name: false,
+			}));
+		}
+		if (
+			!selectedValue.emailUser ||
+			!emailPattern.test(selectedValue.emailUser)
+		) {
+			setError((prev) => ({
+				...prev,
+				email: true,
+			}));
+		} else {
+			setError((prev) => ({
+				...prev,
+				email: false,
+			}));
+		}
+		if (!selectedValue.title) {
+			console.log("this selectedValue true");
+			setError((prev) => ({
+				...prev,
+				movies: true,
+			}));
+		} else {
+			setError((prev) => ({
+				...prev,
+				movies: false,
+			}));
+		}
+	};
+	//Submit------------
 	const buttonClickSubmit = (event) => {
 		event.preventDefault();
-		toglePageData();
-		getDataFrom(selectedValue);
+		varidateInput();
+		// toglePageData();
+		// getDataFrom(selectedValue)
+
+		// error.name || error.email || error.movies ? null : toglePageData();
+		if (!error.name || !error.email || !error.movies) {
+			console.log("Show if");
+			console.log("Show object", error);
+			toglePageData();
+		} else {
+			console.log("Show else");
+			null;
+		}
+
 		// alert(
 		// 	JSON.stringify(
 		// 		selectedValue.nameUser +
@@ -97,13 +159,18 @@ const MovieSurvey = ({ toglePageData, getDataFrom }) => {
 					ชื่อ <span className="text-red-500">*</span>
 				</label>
 				<input
-					className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+					className={` ${
+						error.name ? "border-red-500" : null
+					} flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm`}
 					id="name"
 					placeholder="กรุณากรอกชื่อของคุณ"
 					name="nameUser"
 					value={selectedValue.nameUser}
 					onChange={nameChange}
 				/>
+				{error.name ? (
+					<h1 className="text-sm text-red-500 mt-1">บอกชื่อมาซะดี ๆ</h1>
+				) : null}
 			</section>
 			<section className="space-y-2">
 				<label
@@ -113,19 +180,28 @@ const MovieSurvey = ({ toglePageData, getDataFrom }) => {
 					อีเมล <span className="text-red-500">*</span>
 				</label>
 				<input
-					className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+					className={`${
+						error.email ? "border-red-500" : null
+					} flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm`}
 					id="email"
 					placeholder="example@email.com"
 					name="emailUser"
 					value={selectedValue.emailUser}
 					onChange={emailChange}
 				/>
+				{error.email ? (
+					<h1 className="text-sm text-red-500 mt-1">บอกชื่อมาซะดี ๆ</h1>
+				) : null}
 			</section>
 			{/*-------------------- ส่วนเลือกMovie --------------------*/}
 			<section className="space-y-3">
 				<section className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium">
 					เลือกหนังที่คุณชอบ <span className="text-red-500">*</span>
-					<div className="grid gap-y-2 my-2">
+					<div
+						className={`${
+							error.movies ? "border-1 border-red-500 p-2" : null
+						} grid gap-y-2 my-2 `}
+					>
 						{movies.map((item, index) => (
 							<div className="flex gap-3" key={item.title + item.year}>
 								<input
@@ -173,7 +249,6 @@ const MovieSurvey = ({ toglePageData, getDataFrom }) => {
 					rows="4"
 					value={selectedValue.commentChange}
 					onChange={commentChange}
-					// style="height: 41px;"
 				></textarea>
 			</section>
 			{/*-------------------- ส่วน submit reset --------------------*/}

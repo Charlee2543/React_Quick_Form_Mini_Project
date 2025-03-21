@@ -1,7 +1,7 @@
 const ShowData = ({ toglePageData, getData }) => {
-	console.log(`ShhowData :  ` + getData);
-	console.log(`ShhowDataNmae :  ` + getData.nameUser);
-	console.log(`ShhowDataEmail :  ` + getData.emailUser);
+	// console.log(`ShhowData :  ` + getData);
+	// console.log(`ShhowDataNmae :  ` + getData.nameUser);
+	// console.log(`ShhowDataEmail :  ` + getData.emailUser);
 	return (
 		<>
 			<div className="p-6 space-y-6 py-6 max-w-[450px] ">

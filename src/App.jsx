@@ -15,7 +15,7 @@ function App() {
 		// setGetData((data) => ({ ...data, ...dataFrom }));
 		setGetData(dataFrom);
 	};
-	console.log(`appData :`, getData);
+	// console.log(`appData :`, getData);
 	return (
 		<div className="w-[100vw] flex flex-col items-center ">
 			<TitleMovie />
