@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-// component
+// component copy UI จากตัวอย่างมาครับ
 const MovieSurvey = () => {
 	//ชุดข้อมูล
 	const movies = [
@@ -19,20 +19,19 @@ const MovieSurvey = () => {
 	const [nameUser, setNameUser] = useState("");
 	const [emailUser, setEmailUser] = useState("");
 	const [commentUser, setCommentUser] = useState("");
+	// const [checkedStatus, setCheckedStatus] = useState(false);
 	const [selectedValue, setSelectedValue] = useState({
-		// nameUser: "",
-		// emailUser: "",
 		title: "",
 		year: "",
-		director: " ",
+		director: "",
 	});
 	//function
 	console.log(selectedValue);
-	console.log(nameUser);
-	console.log(emailUser);
-	console.log(commentUser);
+	// console.log(nameUser);
+	// console.log(emailUser);
+	// console.log(commentUser);
 	const handleChange = (event) => {
-		setSelectedValue(...selectedValue, movies[event.target.value]);
+		setSelectedValue(movies[event.target.value]);
 	};
 	const nameChange = (event) => {
 		setNameUser(event.target.value);
@@ -43,10 +42,31 @@ const MovieSurvey = () => {
 	const commentChange = (event) => {
 		setCommentUser(event.target.value);
 	};
-	const resetBotton = () => {};
+	const resetBotton = () => {
+		setNameUser("");
+		setEmailUser("");
+		setCommentUser("");
+	};
+	// const CheckedStatus = () => {
+	// 	document.getElementById("red").checked = false;
+	// };
 	const buttonClickSubmit = (event) => {
 		event.preventDefault();
-		alert(JSON.stringify(selectedValue));
+		alert(
+			JSON.stringify(
+				nameUser +
+					" , " +
+					emailUser +
+					" , " +
+					commentUser +
+					" , " +
+					selectedValue.title +
+					" , " +
+					selectedValue.year +
+					" , " +
+					selectedValue.director
+			)
+		);
 	};
 
 	return (
