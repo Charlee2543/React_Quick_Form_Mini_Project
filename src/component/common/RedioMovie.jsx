@@ -1,12 +1,40 @@
-const RedioMovie = () => {
+const RedioMovie = ({ moviesListArray, setSelectedValue }) => {
+	const handleChange = (event) => {
+		console.log(event.target.value);
+		setSelectedValue(event.target.value);
+	};
 	return (
-		<>
-			<div className="space-y-3">
-				<label className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium">
-					เลือกหนังที่คุณชอบ <span className="text-red-500">*</span>
-				</label>
+		<section className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium">
+			เลือกหนังที่คุณชอบ <span className="text-red-500">*</span>
+			<div className="grid gap-y-2 my-2">
+				{moviesListArray.map((item) => (
+					<div className="flex gap-3" key={item.name + item.year}>
+						<input
+							id={item.name + item.year}
+							type="radio"
+							name="movieList"
+							value={item}
+							onChange={handleChange}
+							className=" text-5xl peer accent-blue-700 cursor-pointer "
+						/>
+						<label
+							className="text-sm leading-none  font-medium "
+							htmlFor={item.name + item.year}
+						>
+							{item.title} ({item.year})
+							<p className="text-sm text-muted-foreground">
+								Director: {item.director}
+							</p>
+						</label>
+						{/* <div class="w-5 h-5 border-2 border-gray-500 rounded-full flex items-center justify-center peer-checked:border-blue-500 peer-checked:bg-blue-500">
+						<div class="w-2.5 h-2.5 bg-white rounded-full"></div>
+					</div> */}
+						{/* <label className="grid gap-1 "> */}
+						{/* </label> */}
+					</div>
+				))}
 			</div>
-		</>
+		</section>
 	);
 };
 export default RedioMovie;
