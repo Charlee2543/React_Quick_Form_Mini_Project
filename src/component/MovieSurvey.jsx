@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 // component copy UI จากตัวอย่างมาครับ
-const MovieSurvey = () => {
+const MovieSurvey = ({ toglePageData, getDataFrom }) => {
 	//ชุดข้อมูล
 	const movies = [
 		{ title: "Avatar", year: "2009", director: "James Cameron" },
@@ -15,62 +15,79 @@ const MovieSurvey = () => {
 		{ title: "Pulp Fiction", year: "1994", director: "Quentin Tarantino" },
 		{ title: "Parasite", year: "2019", director: "Bong Joon-ho" },
 	];
-	//useState
-	const [nameUser, setNameUser] = useState("");
-	const [emailUser, setEmailUser] = useState("");
-	const [commentUser, setCommentUser] = useState("");
-	// const [checkedStatus, setCheckedStatus] = useState(false);
 	const [selectedValue, setSelectedValue] = useState({
+		nameUser: "",
+		emailUser: "",
 		title: "",
 		year: "",
 		director: "",
+		commentUser: "",
 	});
 	//function
-	console.log(selectedValue);
+	console.log("dataForm :  ", selectedValue);
 	// console.log(nameUser);
 	// console.log(emailUser);
 	// console.log(commentUser);
 	const handleChange = (event) => {
-		setSelectedValue(movies[event.target.value]);
+		setSelectedValue((prev) => ({
+			...prev,
+			...movies[event.target.value],
+		}));
 	};
 	const nameChange = (event) => {
-		setNameUser(event.target.value);
+		setSelectedValue((prev) => ({
+			...prev,
+			[event.target.name]: event.target.value,
+		}));
 	};
 	const emailChange = (event) => {
-		setEmailUser(event.target.value);
+		setSelectedValue((prev) => ({
+			...prev,
+			[event.target.name]: event.target.value,
+		}));
 	};
 	const commentChange = (event) => {
-		setCommentUser(event.target.value);
+		setSelectedValue((prev) => ({
+			...prev,
+			[event.target.name]: event.target.value,
+		}));
 	};
 	const resetBotton = () => {
-		setNameUser("");
-		setEmailUser("");
-		setCommentUser("");
+		setSelectedValue({
+			nameUser: "",
+			emailUser: "",
+			title: "",
+			year: "",
+			director: "",
+			commentUser: "",
+		});
 	};
-	// const CheckedStatus = () => {
-	// 	document.getElementById("red").checked = false;
-	// };
 	const buttonClickSubmit = (event) => {
 		event.preventDefault();
-		alert(
-			JSON.stringify(
-				nameUser +
-					" , " +
-					emailUser +
-					" , " +
-					commentUser +
-					" , " +
-					selectedValue.title +
-					" , " +
-					selectedValue.year +
-					" , " +
-					selectedValue.director
-			)
-		);
+		toglePageData();
+		getDataFrom(selectedValue);
+		// alert(
+		// 	JSON.stringify(
+		// 		selectedValue.nameUser +
+		// 			" , " +
+		// 			selectedValue.emailUser +
+		// 			" , " +
+		// 			selectedValue.title +
+		// 			" , " +
+		// 			selectedValue.year +
+		// 			" , " +
+		// 			selectedValue.director +
+		// 			" , " +
+		// 			selectedValue.commentUser
+		// 	)
+		// );
 	};
 
 	return (
-		<form className="p-6 space-y-6 pt-6" onSubmit={buttonClickSubmit}>
+		<form
+			className="p-6 space-y-6 pt-6 max-w-[450px] "
+			onSubmit={buttonClickSubmit}
+		>
 			{/*--------------------ส่วนกรอกข้อมูล --------------------*/}
 			<section className="space-y-2">
 				<label
@@ -83,8 +100,8 @@ const MovieSurvey = () => {
 					className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
 					id="name"
 					placeholder="กรุณากรอกชื่อของคุณ"
-					name="name"
-					value={nameUser}
+					name="nameUser"
+					value={selectedValue.nameUser}
 					onChange={nameChange}
 				/>
 			</section>
@@ -99,8 +116,8 @@ const MovieSurvey = () => {
 					className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
 					id="email"
 					placeholder="example@email.com"
-					name="email"
-					value={emailUser}
+					name="emailUser"
+					value={selectedValue.emailUser}
 					onChange={emailChange}
 				/>
 			</section>
@@ -116,14 +133,15 @@ const MovieSurvey = () => {
 									type="radio"
 									name="movieList"
 									value={index}
+									checked={selectedValue.title === item.title}
 									onChange={handleChange}
 									className=" text-5xl peer hidden accent-blue-700 cursor-pointer "
 								/>
 								<label
 									htmlFor={item.title + item.year}
-									class="w-5 h-5 border-2 border-gray-500 rounded-full flex items-center justify-center peer-checked:border-blue-500 peer-checked:bg-blue-500"
+									className="w-5 h-5 border-2 border-gray-500 rounded-full flex items-center justify-center peer-checked:border-blue-500 peer-checked:bg-blue-500"
 								>
-									<div class="w-2.5 h-2.5 bg-white rounded-full"></div>
+									<div className="w-2.5 h-2.5 bg-white rounded-full"></div>
 								</label>
 								<label
 									className="text-sm leading-none  font-medium "
@@ -150,10 +168,10 @@ const MovieSurvey = () => {
 				<textarea
 					className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
 					id="comment"
-					name="comment"
+					name="commentUser"
 					placeholder="พิมพ์ความคิดเห็นของคุณที่นี่..."
 					rows="4"
-					value={commentUser}
+					value={selectedValue.commentChange}
 					onChange={commentChange}
 					// style="height: 41px;"
 				></textarea>

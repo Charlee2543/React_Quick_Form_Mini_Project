@@ -1,6 +1,6 @@
 const TitleMovie = () => {
 	return (
-		<div className="flex flex-col space-y-1.5 p-6 bg-gradient-to-r from-purple-700 to-indigo-600 text-white">
+		<div className="flex flex-col box-border space-y-1.5 p-6 max-w-[300px] w-full bg-gradient-to-r from-purple-700 to-indigo-600 text-white boxsizing ">
 			<div className="font-semibold tracking-tight flex items-center gap-2 text-2xl">
 				{/* <svg
 					xmlns="http://www.w3.org/2000/svg"
