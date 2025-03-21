@@ -78,12 +78,14 @@ const MovieSurvey = ({ toglePageData, getDataFrom }) => {
 				...prev,
 				name: true,
 			}));
-		} else {
-			setError((prev) => ({
-				...prev,
-				name: false,
-			}));
+			valueVaridate = true;
 		}
+		// else {
+		// 	setError((prev) => ({
+		// 		...prev,
+		// 		name: false,
+		// 	}));
+		// }
 		if (
 			!selectedValue.emailUser ||
 			!emailPattern.test(selectedValue.emailUser)
@@ -92,24 +94,28 @@ const MovieSurvey = ({ toglePageData, getDataFrom }) => {
 				...prev,
 				email: true,
 			}));
-		} else {
-			setError((prev) => ({
-				...prev,
-				email: false,
-			}));
+			valueVaridate = true;
 		}
+		// else {
+		// 	setError((prev) => ({
+		// 		...prev,
+		// 		email: false,
+		// 	}));
+		// }
 		if (!selectedValue.title) {
 			console.log("this selectedValue true");
 			setError((prev) => ({
 				...prev,
 				movies: true,
 			}));
-		} else {
-			setError((prev) => ({
-				...prev,
-				movies: false,
-			}));
+			valueVaridate = true;
 		}
+		// else {
+		// 	setError((prev) => ({
+		// 		...prev,
+		// 		movies: false,
+		// 	}));
+		// }
 	};
 	//Submit------------
 	const buttonClickSubmit = (event) => {
@@ -119,13 +125,9 @@ const MovieSurvey = ({ toglePageData, getDataFrom }) => {
 		// getDataFrom(selectedValue)
 
 		// error.name || error.email || error.movies ? null : toglePageData();
-		if (!error.name || !error.email || !error.movies) {
-			console.log("Show if");
-			console.log("Show object", error);
+		if (!valueVaridate) {
 			toglePageData();
-		} else {
-			console.log("Show else");
-			null;
+			getDataFrom(selectedValue);
 		}
 
 		// alert(
@@ -190,7 +192,7 @@ const MovieSurvey = ({ toglePageData, getDataFrom }) => {
 					onChange={emailChange}
 				/>
 				{error.email ? (
-					<h1 className="text-sm text-red-500 mt-1">บอกชื่อมาซะดี ๆ</h1>
+					<h1 className="text-sm text-red-500 mt-1">บอก Email มาซะดีๆ</h1>
 				) : null}
 			</section>
 			{/*-------------------- ส่วนเลือกMovie --------------------*/}
