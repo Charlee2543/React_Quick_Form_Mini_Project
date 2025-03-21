@@ -1,8 +1,8 @@
 const TitleMovie = () => {
 	return (
-		<div class="flex flex-col space-y-1.5 p-6 bg-gradient-to-r from-purple-700 to-indigo-600 text-white">
-			<div class="font-semibold tracking-tight flex items-center gap-2 text-2xl">
-				<svg
+		<div className="flex flex-col space-y-1.5 p-6 bg-gradient-to-r from-purple-700 to-indigo-600 text-white">
+			<div className="font-semibold tracking-tight flex items-center gap-2 text-2xl">
+				{/* <svg
 					xmlns="http://www.w3.org/2000/svg"
 					width="24"
 					height="24"
@@ -22,7 +22,7 @@ const TitleMovie = () => {
 					<path d="M17 3v18"></path>
 					<path d="M17 7.5h4"></path>
 					<path d="M17 16.5h4"></path>
-				</svg>
+				</svg> */}
 				Movie Survey
 			</div>
 		</div>
